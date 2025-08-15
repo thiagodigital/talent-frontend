@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 5173
 
 # Comando padrão (pode ser sobrescrito)
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
