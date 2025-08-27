@@ -21,5 +21,7 @@ router.beforeEach((to, from, next) => {
 
   next();
 });
-
+router.afterEach(async (to, from, failure) => {
+  if (!failure) setTimeout(() => window.HSStaticMethods.autoInit(), 100);
+});
 export default router;

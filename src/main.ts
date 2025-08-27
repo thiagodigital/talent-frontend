@@ -1,9 +1,12 @@
-import router from '@/services/router';
 import { useAuth } from "@/services/stores/authStore";
 import { createPinia } from 'pinia';
 import { createApp, markRaw } from "vue";
+import './input.css'; // Ensure Tailwind CSS is imported
+import '@/assets/main.css'; // Ensure Tailwind CSS is imported
+import 'flyonui/flyonui'
 import App from "./App.vue";
-// // Optional third-party libraries
+import router from '@/services/router';
+
 // import $ from "jquery";
 // import _ from "lodash";
 // import noUiSlider from "nouislider";
@@ -16,10 +19,6 @@ import App from "./App.vue";
 // window.DataTable = $.fn.dataTable;
 // window.noUiSlider = noUiSlider;
 
-
-import '@/input.css'; // Ensure Tailwind CSS is imported
-import '@/assets/main.css'; // Ensure Tailwind CSS is imported
-import 'flyonui/flyonui'
 
 const app = createApp(App);
 

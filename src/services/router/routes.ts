@@ -33,6 +33,14 @@ export const routes = [
     }
   },
   {
+    path: '/collaborators/profile/:id',
+    name: 'collaborator-profile',
+    component: () => import('@/pages/Exams/Disc/Show.vue'),
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('@/pages/AboutPage.vue'),

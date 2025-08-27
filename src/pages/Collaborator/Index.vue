@@ -1,21 +1,60 @@
 <script setup lang="ts">
+import AlertComponent from "@/components/Form/AlertComponent.vue";
+import FormComponent from "@/components/Form/FormComponent.vue";
+import InputTextComponent from "@/components/Form/InputTextComponent.vue";
+import ModalComponent from "@/components/ModalComponent.vue";
+import NavigationComponent from "@/components/NavigationComponent.vue";
 import { useCollaborator } from "@/services/stores/collaboratorStore";
-import { onMounted } from "vue";
+import { onMounted, reactive} from "vue";
 const data = useCollaborator();
+const collaborator = reactive<CollaboratorFormType>({
+  name: "",
+  email: "",
+  phone: "",
+  role_id: 4,
+});
 onMounted(() => {
   data.getCollaborators();
 });
 </script>
 <template>
-    <div class="p-4">
-        <h1 class="mb-4 text-2xl font-bold">Collaborators</h1>
-        <p>This is the Collaborator Index Page.</p>
-    </div>
-    <div class="card">
-  <div class="px-4 py-2 text-sm font-medium text-base-content/50">CHAT LIST</div>
+    <NavigationComponent title="Colaboradores" />
+      <ModalComponent
+        label="Novo Colaborador"
+        name="create-collaborator-modal"
+        modal-title="Criar Colaborador"
+        modal-btn-label="Criar"
+        :modal-btn-close="true"
+        @modal-btn-action="data.setCollaborator(collaborator)"
+      >
+        <FormComponent  class="gap-4">
+          <InputTextComponent
+            label="Nome"
+            v-model="collaborator.name"
+            type="text"
+            name="name"
+            placeholder="nome do colaborador"
+          />
+          <InputTextComponent
+            label="Email"
+            v-model="collaborator.email"
+            type="text"
+            name="email"
+            placeholder="email do colaborador"
+          />
+          <InputTextComponent
+            label="Telefone"
+            v-model="collaborator.phone"
+            type="text"
+            name="phone"
+            placeholder="telefone do colaborador"
+          />
+        </FormComponent>
+      </ModalComponent>
+    <div class="">
   <ul class="space-y-0.5">
     <li v-for="(collaborator, index) in data.collaborators" :key="index" class="flex items-center gap-2 px-4 py-2.5">
-      <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="User Image" class="rounded-full size-10" />
+      <img :src="`https://ui-avatars.com/api/?name=${collaborator?.name}`"  :alt="collaborator?.name" class="rounded-full size-10" />
       <div class="flex items-center justify-between grow gap-y-1">
         <div>
           <h6 class="text-base">{{ collaborator.name }}</h6>
