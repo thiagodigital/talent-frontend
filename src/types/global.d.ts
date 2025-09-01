@@ -24,6 +24,7 @@ interface CollaboratorType {
   id: string?;
   name: string?;
   email: string?;
+  position: string?;
   phone: string?;
   role_id: string|number;
   profile_category: ProfileCategoryType[]?;
@@ -31,6 +32,7 @@ interface CollaboratorType {
 interface CollaboratorFormType {
   name: string?;
   email: string?;
+  position: string?;
   phone: string?;
   role_id: string|number;
 }

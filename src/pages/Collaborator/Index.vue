@@ -11,6 +11,7 @@ const collaborator = reactive<CollaboratorFormType>({
   name: "",
   email: "",
   phone: "",
+  position: "",
   role_id: 4,
 });
 onMounted(() => {
@@ -41,6 +42,13 @@ onMounted(() => {
             type="text"
             name="email"
             placeholder="email do colaborador"
+          />
+          <InputTextComponent
+            label="Cargo"
+            v-model="collaborator.position"
+            type="text"
+            name="position"
+            placeholder="cargo do colaborador"
           />
           <InputTextComponent
             label="Telefone"

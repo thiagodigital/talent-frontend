@@ -46,8 +46,6 @@ export const useCollaborator = defineStore('collaborator', () => {
                 });
                 router.push('/collaborators');
                 window.location.reload();
-            console.log('Collaborator created:', data);
-            // collaborator.value = data.data;
         } catch (error) {
             window.alert(error?.response?.data?.message ?? 'Ocorreu um erro ao criar um colaborador');
             console.log('Error fetching collaborator:', error?.response?.data);

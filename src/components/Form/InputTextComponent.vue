@@ -48,7 +48,7 @@ onMounted(() => {
 defineExpose({ focus: () => input.value.focus() });
 </script>
 <template>
-    <div v-if="type == 'password'">
+    <div class="mb-4" v-if="type == 'password'">
         <label v-if="label"  class="label-text">{{ label }}</label>
         <div class="input">
             <input
@@ -72,7 +72,7 @@ defineExpose({ focus: () => input.value.focus() });
         </div>
         <div v-if="erro !== ''" class="fv-plugins-message-container invalid-feedback">{{ erro }}</div>
     </div>
-    <div v-else>
+    <div class="mb-4" v-else>
         <label v-if="label" class="label-text">{{ label }}</label>
         <input
         :type="type"

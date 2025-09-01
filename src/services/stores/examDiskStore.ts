@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import http from "@/services/http";
 import { ref } from "vue";
-// import router from "../router";
+import router from "../router";
+
 
 export const useExamDisk = defineStore('exam-disk', () => {
     const token = 'Bearer ' + localStorage.getItem("token");
@@ -21,13 +22,16 @@ export const useExamDisk = defineStore('exam-disk', () => {
     }
 
     async function setExamDisk(formData: any) {
+        const id = router.currentRoute.value.params.id;
         try {
             const response = await http.post('/exams/profile/store/disc', formData, {
                 headers: {
                     Authorization: token,
                 },
             });
-            console.log('Exam submitted successfully:', response.data);
+            router.push('/collaborators/'+id);
+            setTimeout(() => window.location.reload(), 1000);
+            console.log('Exam submitted:', response);
         } catch (error) {
             console.error('Error submitting exam:', error);
         }
