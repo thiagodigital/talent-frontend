@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineEmits(['modalBtnAction']);
 defineProps({
   label: String,
   modalTitle: String,
@@ -8,7 +9,9 @@ defineProps({
 });
 </script>
 <template>
-    <button type="button" class="btn btn-primary" aria-haspopup="dialog" aria-expanded="false" aria-controls="fullscreen-modal"  :data-overlay="`#${name}`">{{ label }}</button>
+    <div class="flex justify-end mb-4 me-4">
+        <button type="button" class="btn btn-primary" aria-haspopup="dialog" aria-expanded="false" aria-controls="fullscreen-modal"  :data-overlay="`#${name}`">{{ label }}</button>
+    </div>
 
     <div :id="name" class="hidden overlay modal overlay-open:opacity-100 overlay-open:duration-300" role="dialog" tabindex="-1">
         <div class="modal-dialog max-w-none">

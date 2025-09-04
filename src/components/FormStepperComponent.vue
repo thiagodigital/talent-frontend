@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import DraggableListComponent from './DraggableListComponent.vue'
+import DraggableItemComponent from './DraggableItemComponent.vue'
+onMounted(() => {
+  const listExample = document.querySelector('#list-example')
+
+  if (listExample) {
+    Sortable.create(listExample as HTMLElement, {
+      animation: 150,
+      dragClass: '!border-0'
+    })
+  }
+})
 const props = defineProps({
     data: {
         type: Array,
@@ -30,8 +43,7 @@ function updateGroupScores(ids: string[], score: number) {
 <template>
     <div data-stepper="" class="w-full" id="wizard-validation-horizontal">
       <div class="mb-4">
-        <p>Responda com coragem e determinação, indicando as caracteristicas que mais se aproxima da sua observação relativamente ao comportamento do seu liderado.</p>
-        <p>Preencha as lacunas abaixo com números de 1 a 4, na HORIZONTAL, sendo: 1 o que menos se identifica e 4 o que mais se identifica</p>
+        <p>Organize o conjunto de palavras nas linhas em ordem crescente. Levando em consideracao, que o primeiro 'e o que mais descreve o colaborador, e o ultimo o que menos descreve.</p>
       </div>
   <ul v-if="data" class="relative flex flex-row gap-2 md:flex-row">
     <li v-for="(header, index) in data" :key="index" class="flex flex-col items-center flex-1 gap-2 group md:flex-row" :data-stepper-nav-item='`{ "index": ${ index + 1 } } }`' :class="index + 1 == currentStep ? 'active' : ''">
@@ -49,12 +61,31 @@ function updateGroupScores(ids: string[], score: number) {
   <!-- Stepper Content -->
   <form id="wizard-validation-form-horizontal" @submit.prevent="$emit('submitStepper')" method="POST" class="mt-5 needs-validation sm:mt-8">
     <!-- Account Details -->
+     
     <div v-for="(body, idx) in data" :key="idx" :id="`account-details-validation-${idx}`" class="mb-4 space-y-5" :data-stepper-content-item='`{ "index": ${ idx + 1 } } }`' :style="currentStep != (idx + 1) ? `display: none;` : ''" >
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <DraggableListComponent
+      :id="idx"
+      :items="body.options">
+        <DraggableItemComponent
+          v-for="(list, i) in body.options"
+          :key="i"
+          :id="list.id"
+          :value="props.formData.traits.find(t => t.id === list.ids[0])?.score ?? 0"
+          >
+          {{ list.name.join(', ') }}
+          <span class="icon-[tabler--grip-vertical] text-base-content ms-auto size-4 shrink-0"></span>
+          
+        </DraggableItemComponent>
+        <!-- @update:items="list.tasks = $event"
+        @sendToForm="updateGroupScores(list.traitsIds, 4)" -->
+      </DraggableListComponent>
+
+
+      <!-- <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div v-for="(item, ix) in body.options" :key="ix">
-          <!-- <p>{{ item.category }}</p> -->
-          {{ item.name.join(', ') }}
-          <p class="mb-4">
+          <p>{{ item.category }}</p> -->
+          <!-- {{ item.name.join(', ') }} -->
+          <!-- <p class="mb-4">
             <input 
               type="range" 
               min="0" 
@@ -67,7 +98,9 @@ function updateGroupScores(ids: string[], score: number) {
               />
           </p>
         </div>
-      </div>
+      </div> -->
+
+
     </div>
     <div data-stepper-content-item='{ "isFinal": true }' style="display: none">
       <div class="flex items-center justify-center h-48 p-4 border border-dashed border-base-content/40 bg-base-200/50 rounded-xl" >

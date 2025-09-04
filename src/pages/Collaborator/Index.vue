@@ -66,7 +66,7 @@ onMounted(() => {
       <div class="flex items-center justify-between grow gap-y-1">
         <div>
           <h6 class="text-base">{{ collaborator.name }}</h6>
-          <small class="text-xs text-base-content/80">{{ collaborator.email }}</small>
+          <small class="text-xs font-bold text-base-content/80">{{ collaborator.position }}</small>
         </div>
         <div class="flex flex-col items-end gap-x-2 gap-y-0.5">
           <RouterLink :to="'/collaborators/' + collaborator.id" class="border-primary text-primary flex items-center justify-center rounded-full border p-0.5">
