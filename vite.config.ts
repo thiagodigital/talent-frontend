@@ -20,8 +20,8 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       },
     },
-  },
-  server:{
-    allowedHosts: true
-  }
-})
+    server: {
+        allowedHosts: true
+    },
+  };
+});
