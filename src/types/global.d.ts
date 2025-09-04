@@ -28,6 +28,14 @@ interface CollaboratorType {
   phone: string?;
   role_id: string|number;
   profile_category: ProfileCategoryType[]?;
+  evaluations: EvaluationsType[]?;
+}
+
+interface EvaluationsType {
+  id: string;
+  summary: string;
+  proficience: string;
+  align: string;
 }
 interface CollaboratorFormType {
   name: string?;
@@ -75,6 +83,18 @@ interface ExamDiskOptionType {
   category: string;
   color: string;
   name: string[];
+}
+
+interface Tab {
+  name: string
+  href: string
+  isActive: boolean
+  setActive: (active: boolean) => void
+}
+
+interface TabProps {
+  name: string
+  selected?: boolean
 }
 }
 

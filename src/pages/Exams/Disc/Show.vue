@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 <template>
     <NavigationComponent title="Perfil" />
-    <div class="p-4">
+    <div class="p-4" v-if="data?.examDisk.data">
         <FormStepperComponent
             :data="data?.examDisk.data"
             :steps="data?.examDisk?.data?.length ?? 0"
