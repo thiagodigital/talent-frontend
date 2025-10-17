@@ -17,6 +17,7 @@ onMounted(() => {
 })
 </script>
 <template>
+  <div>
   <NavigationComponent title="Colaborador" />
   <div class="max-w-lg px-5 mx-auto">
     <img
@@ -55,43 +56,34 @@ onMounted(() => {
       <p class="text-neutral-500">Nenhuma categoria de perfil encontrada.</p>
       <router-link
         class="text-blue-600 hover:underline"
-        :to="{ name: 'collaborator-profile', params: { id: data.collaborator?.id } }"
+        :to="{ name: 'collaborator-profile-evaluation', params: { id: data.collaborator?.id } }"
         >Clique aqui para criar um perfil</router-link
       >
     </div>
-    <TabsComponent
+    <p v-html="data.collaborator?.evaluations[0].feedback"></p>
+    <p>{{ data.collaborator?.evaluations[0].opinion ?? 'Nenhuma opinião fornecida.' }}</p>
+    <div>
+      <p>Medias</p>
+      <p>Hard skills {{ data.collaborator?.evaluations[0].points[0] }}</p>
+        <p>Soft skills {{ data.collaborator?.evaluations[0].points[1] }}</p>
+    </div>
+    <div>
+
+    </div>
+    <!-- <TabsComponent
       v-if="data.collaborator?.evaluations && data.collaborator.evaluations.length > 0"
     >
-      <TabComponent name="Devolutiva" selected idx="1">
-        {{ data.collaborator?.evaluations[0].summary }}
+      <TabComponent name="Feedback" selected idx="1">
+
       </TabComponent>
-      <TabComponent name="Habilidades" idx="2">
-        {{ data.collaborator?.evaluations[0].proficience }}
-      </TabComponent>
-      <TabComponent name="Sugestao" idx="3">
-        {{ data.collaborator?.evaluations[0].align }}
+      <TabComponent name="Opiniao" idx="2">
+
       </TabComponent>
       <TabComponent name="Perfil" idx="4">
-        <AccordionItem
-          v-for="(category, index) in data.collaborator?.profile_category"
-          :key="index"
-          :title="category.category"
-          :subtitle="category.media_score + '%'"
-          :isActive="false"
-        >
-          <ul>
-            <li
-              v-for="(trait, tIndex) in category.options"
-              :key="tIndex"
-              class="flex justify-between py-1 border-b last:border-b-0"
-            >
-              <span>{{ trait.name.join(', ', ' ') }}</span>
-              <span class="font-medium">{{ trait.score }}</span>
-            </li>
-          </ul>
-        </AccordionItem>
+
       </TabComponent>
-    </TabsComponent>
+    </TabsComponent> -->
   </div>
   <div class="w-full h-20 mb-40"></div>
+  </div>
 </template>

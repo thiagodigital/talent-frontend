@@ -12,10 +12,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex items-end w-full p-4 h-50">
+  <div>
+    <div class="flex items-end w-full p-4 h-50">
       <p class="text-1xl">
         <span class="font-bold ">
-          Olá, 
+          Olá,
         </span>
         <span class="text-2xl font-bold">
           {{ name }}!
@@ -26,31 +27,27 @@ onMounted(() => {
     </div>
     <hr class="mb-4 border-neutral/20" />
     <div class="w-full p-4">
-      <!-- <pre>
-        {{ data }}
-      </pre> -->
-    <div class="w-full card">
-      <span class="text-2xl">Colaboradores</span>
-      <ul class="divide-y divide-base-content/20">
-        <li v-for="value in data?.collaborators" :key="value.id" class="p-3">
-          <p>
-            {{ value.name }}
-          </p>
-          <p class="font-bold">{{ value.position }}</p>
-        </li>
-      </ul>
+      <div class="w-full card">
+        <span class="text-2xl">Colaboradores</span>
+        <ul class="divide-y divide-base-content/20">
+          <li v-for="value in data?.collaborators" :key="value.id" class="flex items-center justify-between p-3">
+            <div>
+
+              <p>
+                {{ value.name }}
+              </p>
+              <p class="font-bold">{{ value.position }}</p>
+            </div>
+            <div>
+              <a
+                :href="'/collaborators/' + value.id"
+                class="border-primary text-primary flex items-center justify-center rounded-full border p-0.5">
+                <span class="icon-[tabler--arrow-right] size-4 rtl:rotate-180"></span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-
-  <!-- <div class="w-full border-2 stats">
-        <template
-          v-for="(category, index) in data.collaborator?.profile_category"
-          :key="index">
-          <div class="stat place-items-center" v-if="index < 2">
-            <div class="stat-title">{{ category.category }}</div>
-            <div class="stat-value">{{ category.media_score }}%</div>
-            <div class="w-full truncate stat-desc">{{ category.options[0].name.join(', ', ' ') }}</div>
-          </div>
-        </template>
-      </div> -->
 </template>

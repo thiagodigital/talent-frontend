@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import DraggableListComponent from './DraggableListComponent.vue'
 import DraggableItemComponent from './DraggableItemComponent.vue'
+import ButtonGroupComponent from './ButtonGroupComponent.vue'
 onMounted(() => {
   const listExample = document.querySelector('#list-example')
 
@@ -34,25 +35,20 @@ const props = defineProps({
     required: true,
   },
 })
-function updateOrder(stepIndex: number, newOrder: any[]) {
-  // 🔥 atualiza a ordem dentro do formData
-  props.data[stepIndex].options = newOrder
-
-  // 🔥 opcional: reatribui "score" ou "number" conforme posição
-  newOrder.forEach((item, index) => {
-    const trait = props.formData.traits.find((t: any) => t.id === item.ids[0])
-    if (trait) {
-      trait.score = index + 1 // ou outro campo que represente a ordem
-    }
-  })
+function updateOrder(index: string, value: number) {
+  if(props.formData.skills != undefined){
+    props.formData.skills
+    .filter(e => e.id == index)[0].value = value;
+  }
 }
 </script>
 <template>
-  <div data-stepper="" class="w-full" id="wizard-validation-horizontal">
+  <div data-stepper="" class="w-full mb-5" id="wizard-validation-horizontal">
+    <pre>{{ props.formData }}</pre>
     <div class="mb-4">
-      <p>
-        Organize o conjunto de palavras nas linhas em ordem crescente. Levando em consideracao, que
-        o primeiro 'e o que mais descreve o colaborador, e o ultimo o que menos descreve.
+      <p class="text-lg">
+        Leia as frases abaixo, e avalie seu colaborador dando uma nota de 1 a 10 para cada uma delas, onde 1 é
+        "Discordo totalmente" e 10 é "Concordo totalmente".
       </p>
     </div>
     <ul v-if="data && props.mode == 'steps'" class="relative flex flex-row gap-2 md:flex-row">
@@ -80,6 +76,19 @@ function updateOrder(stepIndex: number, newOrder: any[]) {
         </span>
       </li>
     </ul>
+    <ul v-else-if="data && props.mode == 'progress'">
+      <li>
+        <div
+          class="w-full h-3 progress"
+          role="progressbar"
+          :aria-label="`${currentStep}% Progressbar`"
+          aria-valuenow="currentStep"
+          aria-valuemin="0"
+          :aria-valuemax="steps">
+          <div :style="`width: calc(calc(100% / ${steps}) * ${currentStep});`" class="progress-bar"></div>
+        </div>
+      </li>
+    </ul>
 
     <!-- Stepper Content -->
     <form
@@ -98,29 +107,23 @@ function updateOrder(stepIndex: number, newOrder: any[]) {
         :data-stepper-content-item="`{ &quot;index&quot;: ${idx + 1} } }`"
         :style="currentStep != idx + 1 ? `display: none;` : ''"
       >
-        <DraggableListComponent
-          :id="idx"
-          :items="body.options"
-          @update:items="(newOrder) => updateOrder(idx, newOrder)"
-        >
-          <DraggableItemComponent
-            v-for="(list, i) in body.options"
-            :key="list.id"
-            :id="list.id"
-            :value="props.formData.traits.find((t) => t.id === list.ids[0])?.score ?? 0"
-          >
-            {{ list.name.join(', ') }}
-            <span
-              class="icon-[tabler--grip-vertical] text-base-content ms-auto size-4 shrink-0"
-            ></span>
-          </DraggableItemComponent>
-        </DraggableListComponent>
-        <pre>{{ trait }}</pre>
-        <!-- <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div v-if="body">
+        <span v-if="body.type == 'hard skill'" class="mb-3 badge badge-primary">{{ body.type }}</span>
+        <span v-else class="mb-3 badge badge-info">{{ body.type }}</span>
+        <h3 class="mb-4 text-2xl text-base-content">{{ body.label }}</h3>
+        <ButtonGroupComponent
+          @sendToForm="(e) => updateOrder(e[0], e[1])"
+          :id="body.id"
+          :type="body.type"
+          :active="props.formData.skills[currentStep - 1]?.value"
+          :value="props.formData.skills.find((t) => t.id === body.id)?.value ?? 0"
+          :count="10" />
+      </div>
+      <!-- <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div v-for="(item, ix) in body.options" :key="ix">
           <p>{{ item.category }}</p> -->
-        <!-- {{ item.name.join(', ') }} -->
-        <!-- <p class="mb-4">
+          <!-- {{ item.name.join(', ') }} -->
+          <!-- <p class="mb-4">
             <input
               type="range"
               min="0"
@@ -155,33 +158,28 @@ function updateOrder(stepIndex: number, newOrder: any[]) {
           <span
             class="icon-[tabler--chevron-left] text-primary-content size-5 rtl:rotate-180"
           ></span>
-          <span class="max-sm:hidden">Back </span>
+          <span class="max-sm:hidden">anterior </span>
         </button>
         <span v-else style="height: 38px; width: 38px"></span>
         <p>{{ currentStep }} de {{ steps }}</p>
+        <template v-if="props.formData.skills.length > 0">
         <button
-          v-if="currentStep <= 8"
+          v-if="currentStep <= (steps - 1)"
+          :disabled="props.formData.skills[currentStep - 1]?.value == 0"
           type="button"
           @click.prevent="$emit('step-change', currentStep + 1)"
           class="btn btn-primary btn-next max-sm:btn-square"
           data-stepper-next-btn=""
-        >
-          <span class="max-sm:hidden">Next</span>
+          >
+          <span class="max-sm:hidden">proximo</span>
           <span
-            class="icon-[tabler--chevron-right] text-primary-content size-5 rtl:rotate-180"
+          class="icon-[tabler--chevron-right] text-primary-content size-5 rtl:rotate-180"
           ></span>
         </button>
-        <button v-else type="submit" class="btn btn-primary" data-stepper-finish-btn="">
+        <button v-else type="submit" :disabled="props.formData.skills[currentStep - 1]?.value == 0" class="btn btn-primary" data-stepper-finish-btn="">
           Enviar
         </button>
-        <button
-          type="reset"
-          class="btn btn-primary"
-          data-stepper-reset-btn=""
-          style="display: none"
-        >
-          Reset
-        </button>
+        </template>
       </div>
       <!-- End Button Group -->
     </form>

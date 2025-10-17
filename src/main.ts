@@ -6,6 +6,7 @@ import '@/assets/main.css'; // Ensure Tailwind CSS is imported
 import 'flyonui/flyonui'
 import App from "./App.vue";
 import router from '@/services/router';
+import echo from "./services/echo";
 
 // import $ from "jquery";
 // import _ from "lodash";
@@ -40,5 +41,7 @@ if (localStorage.getItem('token')) {
         }
     })()
 }
+
+app.config.globalProperties.$echo = echo
 
 app.mount('#app')

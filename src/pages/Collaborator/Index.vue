@@ -75,7 +75,7 @@ onMounted(() => {
         </div>
       </div>
     </li>
-    
+
   </ul>
 </div>
 </template>

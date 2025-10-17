@@ -63,6 +63,18 @@ interface ProfileTraitType {
   score: number;
 }
 
+interface ProfileEvaluationType {
+  id: string;
+  label: string;
+  type: string;
+  score: number;
+}
+
+interface ProfileEvaluationFormType {
+  collaborator_id: string;
+  evaluations: ProfileEvaluationType[];
+}
+
 // Variáveis de ambiente tipadas
 interface ImportMetaEnv {
   readonly VITE_API_URL: string;
@@ -96,6 +108,7 @@ interface TabProps {
   name: string
   selected?: boolean
 }
+
 }
 
 export {};
