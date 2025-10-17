@@ -17,6 +17,7 @@ onMounted(() => {
 })
 </script>
 <template>
+  <div>
   <NavigationComponent title="Colaborador" />
   <div class="max-w-lg px-5 mx-auto">
     <img
@@ -55,7 +56,7 @@ onMounted(() => {
       <p class="text-neutral-500">Nenhuma categoria de perfil encontrada.</p>
       <router-link
         class="text-blue-600 hover:underline"
-        :to="{ name: 'collaborator-profile', params: { id: data.collaborator?.id } }"
+        :to="{ name: 'collaborator-profile-evaluation', params: { id: data.collaborator?.id } }"
         >Clique aqui para criar um perfil</router-link
       >
     </div>
@@ -94,4 +95,5 @@ onMounted(() => {
     </TabsComponent>
   </div>
   <div class="w-full h-20 mb-40"></div>
+  </div>
 </template>

@@ -8,20 +8,18 @@ import tailwindcss from '@tailwindcss/vite'
 const isDevToolsEnabled = process.env.VITE_DEVTOOLS === 'true'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, process.cwd(), '')
   return {
-    plugins: [
-      vue(),
-      tailwindcss(),
-      env.VITE_DEVTOOLS === 'true' ? vueDevTools() : null,
-    ].filter(Boolean),
+    plugins: [vue(), tailwindcss(), env.VITE_DEVTOOLS === 'true' ? vueDevTools() : null].filter(
+      Boolean,
+    ),
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-  },
-  server:{
-    allowedHosts: true
+    server: {
+      allowedHosts: true,
+    },
   }
 })

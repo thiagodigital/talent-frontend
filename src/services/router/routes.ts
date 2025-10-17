@@ -41,6 +41,14 @@ export const routes = [
     }
   },
   {
+    path: '/collaborators/exam-profile/:id',
+    name: 'collaborator-profile-evaluation',
+    component: () => import('@/pages/Exams/Evaluation/Show.vue'),
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('@/pages/AboutPage.vue'),
